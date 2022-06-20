@@ -26,34 +26,38 @@ class GildedRose {
     }
 
     private void updateQuality(Item item) {
-
         switch (item.name) {
-            case AGED_BRIE:
-                if (item.sellIn < 0) {
-                    increaseQuality(item, 2);
-                } else {
-                    increaseQuality(item, 1);
-                }
-                break;
+            case AGED_BRIE -> updateAgedBrieQuality(item);
+            case BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT -> updateConcertPassQuality(item);
+            default -> updateOtherQuality(item);
+        }
+    }
 
-            case BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT:
-                if (item.sellIn < 0) {
-                    item.quality = 0;
-                } else if (item.sellIn < 5) {
-                    increaseQuality(item, 3);
-                } else if (item.sellIn < 10) {
-                    increaseQuality(item, 2);
-                } else {
-                    increaseQuality(item, 1);
-                }
-                break;
+    private void updateOtherQuality(Item item) {
+        if (item.sellIn < 0) {
+            decreaseQuality(item, 2);
+        } else {
+            decreaseQuality(item, 1);
+        }
+    }
 
-            default:
-                if (item.sellIn < 0) {
-                    decreaseQuality(item, 2);
-                } else {
-                    decreaseQuality(item, 1);
-                }
+    private void updateConcertPassQuality(Item item) {
+        if (item.sellIn < 0) {
+            item.quality = 0;
+        } else if (item.sellIn < 5) {
+            increaseQuality(item, 3);
+        } else if (item.sellIn < 10) {
+            increaseQuality(item, 2);
+        } else {
+            increaseQuality(item, 1);
+        }
+    }
+
+    private void updateAgedBrieQuality(Item item) {
+        if (item.sellIn < 0) {
+            increaseQuality(item, 2);
+        } else {
+            increaseQuality(item, 1);
         }
     }
 
