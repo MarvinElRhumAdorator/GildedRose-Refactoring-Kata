@@ -26,27 +26,35 @@ class GildedRose {
     }
 
     private void updateQuality(Item item) {
-        if (isNamed(item, AGED_BRIE)) {
-            increaseQuality(item, 1);
-        } else if (isNamed(item, BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
-            if (item.sellIn < 5) {
-                increaseQuality(item, 3);
-            } else if (item.sellIn < 10) {
-                increaseQuality(item, 2);
-            } else {
+
+        switch (item.name) {
+            case AGED_BRIE:
                 increaseQuality(item, 1);
-            }
-        } else {
-            decreaseQuality(item);
+                break;
+            case BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT:
+                if (item.sellIn < 5) {
+                    increaseQuality(item, 3);
+                } else if (item.sellIn < 10) {
+                    increaseQuality(item, 2);
+                } else {
+                    increaseQuality(item, 1);
+                }
+                break;
+            default:
+                decreaseQuality(item);
         }
 
         if (item.sellIn < 0) {
-            if (isNamed(item, AGED_BRIE)) {
-                increaseQuality(item, 1);
-            } else if (isNamed(item, BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
-                item.quality = 0;
-            } else {
-                decreaseQuality(item);
+            switch (item.name) {
+                case AGED_BRIE:
+                    increaseQuality(item, 1);
+                    break;
+                case BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT:
+                    item.quality = 0;
+                    break;
+                default:
+                    decreaseQuality(item);
+
             }
         }
     }
@@ -64,6 +72,7 @@ class GildedRose {
             increaseQuality(item);
         }
     }
+
     private void increaseQuality(Item item) {
         if (item.quality < 50) {
             item.quality = item.quality + 1;
